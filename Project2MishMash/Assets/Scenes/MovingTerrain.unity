@@ -630,7 +630,7 @@ MonoBehaviour:
   maxTerrainHeight: 25
   heightResolution: 129
   perlinCoordSpacing: 0.01
-  waveSpeed: 0.01
+  waveSpeed: 0.002
   terrainList:
   - {fileID: 1515261758}
   - {fileID: 855985553}
