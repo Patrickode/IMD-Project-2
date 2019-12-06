@@ -68,7 +68,7 @@ public class AgentManager : MonoBehaviour
             float distance = Vector3.Distance(target.transform.position, vehicle.transform.position);
             if (distance < distanceToCatch)
             {
-                target.transform.position = new Vector3(Random.Range(-14, 14), Random.Range(-14, 14), 0);
+                target.transform.position = new Vector3(Random.Range(1, 49), Random.Range(1, 49), Random.Range(1, 49));
             }
         }
         else

@@ -49,11 +49,17 @@ public class FishControls : MonoBehaviour
         //right and left
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            TurnVelocity(transform.right);
+            //TurnVelocity(transform.right);
+            speed = velocity.magnitude;
+            velocity = Quaternion.Euler(0, 0, -aDRotationAngle) * velocity;
+            velocity = velocity.normalized * speed;
         }
         else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            TurnVelocity(-transform.right);
+            //TurnVelocity(-transform.right);
+            speed = velocity.magnitude;
+            velocity = Quaternion.Euler(0, 0, aDRotationAngle) * velocity;
+            velocity = velocity.normalized * speed;
         }
 
         ////alt right and left
@@ -69,13 +75,17 @@ public class FishControls : MonoBehaviour
         //up and down
         else if (Input.GetKey(KeyCode.UpArrow))
         {
-            TurnVelocity(-transform.forward);
-            //velocity = Quaternion.Euler(-aDRotationAngle, 0, 0) * velocity;
+            //TurnVelocity(-transform.forward);
+            speed = velocity.magnitude;
+            velocity = Quaternion.Euler(-aDRotationAngle, 0, 0) * velocity;
+            velocity = velocity.normalized * speed;
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            TurnVelocity(transform.forward);
-            //velocity = Quaternion.Euler(aDRotationAngle, 0, 0) * velocity;
+            //TurnVelocity(transform.forward);
+            speed = velocity.magnitude;
+            velocity = Quaternion.Euler(aDRotationAngle, 0, 0) * velocity;
+            velocity = velocity.normalized * speed;
         }
 
         else

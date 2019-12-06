@@ -936,7 +936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 213283342}
-  accelScale: 1
+  accelScale: 1.2
   decelScale: 0.01
   aDRotationAngle: 1
 --- !u!1 &2011416259
