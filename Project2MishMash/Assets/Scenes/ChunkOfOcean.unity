@@ -389,6 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc03d04bbf0c1674bb0154ca5e078772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxFleeDistance: 15
   manager: {fileID: 213283342}
   mass: 1
   maxSpeed: 4

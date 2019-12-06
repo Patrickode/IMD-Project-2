@@ -119,11 +119,13 @@ public class FishControls : MonoBehaviour
             transform.up = velocity.normalized;
         }
 
-        Debug.DrawRay(transform.position, velocity, Color.yellow);
-        Debug.DrawRay(transform.position, acceleration, Color.cyan);
-        Debug.DrawRay(transform.position, transform.up, Color.green);
-        Debug.DrawRay(transform.position, transform.right, Color.red);
-        Debug.DrawRay(transform.position, transform.forward, Color.blue);
+        //Finally, make sure position is in bounds.
+        transform.position = new Vector3
+        (
+            Mathf.Clamp(transform.position.x, -49, 49),
+            Mathf.Clamp(transform.position.y, Terrain.activeTerrain.SampleHeight(transform.position) + 0.5f, 97),
+            Mathf.Clamp(transform.position.z, -49, 49)
+        );
     }
 
     /// <summary>

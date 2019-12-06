@@ -15,6 +15,8 @@ public class Vehicle : MonoBehaviour
     private Vector3 velocity;
     private Vector3 acceleration;
 
+    public float maxFleeDistance = 15;
+
     public AgentManager manager;
     
     // The mass of the object. Note that this can't be zero
@@ -73,7 +75,14 @@ public class Vehicle : MonoBehaviour
         }
         else if (moveMode == 1)
         {
-            ApplyForce(Flee(target));
+            if ((target.transform.position - transform.position).magnitude <= maxFleeDistance)
+            {
+                ApplyForce(Flee(target));
+            }
+            else
+            {
+                ApplyForce(Neutral());
+            }
         }
         else
         {
@@ -85,6 +94,14 @@ public class Vehicle : MonoBehaviour
 
         // Finally, update the position
         UpdatePosition();
+
+        //Now make sure the position is in bounds.
+        transform.position = new Vector3
+        (
+            Mathf.Clamp(transform.position.x, -49, 49),
+            Mathf.Clamp(transform.position.y, Terrain.activeTerrain.SampleHeight(transform.position) + 0.5f, 97),
+            Mathf.Clamp(transform.position.z, -49, 49)
+        );
     }
 
     /// <summary>
