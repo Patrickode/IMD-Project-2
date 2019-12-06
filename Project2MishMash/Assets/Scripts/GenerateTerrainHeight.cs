@@ -8,7 +8,7 @@ public class GenerateTerrainHeight : MonoBehaviour
     public int heightResolution = 129;
     public const float initialOffset = 500;
     public float perlinCoordSpacing = 0.01f;
-    public float waveSpeed = 1;
+    public float waveSpeed = 0.01f;
 
     private float baseOffset;
     public List<Terrain> terrainList;
@@ -20,7 +20,7 @@ public class GenerateTerrainHeight : MonoBehaviour
 
         //initialize the terrain array, and fill it with the contents of the public list
         //This is to circumvent 2D arrays being non serializable / assignable in the editor
-        terrains = new Terrain[2, 2];
+        terrains = new Terrain[3, 3];
         terrains[0, 0] = terrainList[0];
         terrains[1, 0] = terrainList[1];
         terrains[2, 0] = terrainList[2];
