@@ -43,7 +43,8 @@ public class RoBox : MonoBehaviour
 
     private void MoveLogic()
     {
-        transform.position = new Vector3(transform.position.x, centralTerrain.SampleHeight(transform.position), transform.position.z);
+        //Set the height to be the height of the terrain (I found the long decimal myself to make the bottom mostly align)
+        transform.position = new Vector3(transform.position.x, centralTerrain.SampleHeight(transform.position) + 0.82048f, transform.position.z);
 
         //forward and back
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
