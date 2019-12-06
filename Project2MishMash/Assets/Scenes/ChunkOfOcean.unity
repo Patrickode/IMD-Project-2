@@ -406,6 +406,7 @@ GameObject:
   - component: {fileID: 213283340}
   - component: {fileID: 213283339}
   - component: {fileID: 213283342}
+  - component: {fileID: 213283343}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -495,6 +496,20 @@ MonoBehaviour:
   fishControls: {fileID: 968080638}
   camSpeed: 1
   distanceToCatch: 1
+--- !u!114 &213283343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213283338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960ec3a82f278094ba1b6534e86baf51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  piecePrefab: {fileID: 5630424606416487518, guid: a4dfede587915c3499730b89ce98276b,
+    type: 3}
 --- !u!1 &249660786
 GameObject:
   m_ObjectHideFlags: 0
