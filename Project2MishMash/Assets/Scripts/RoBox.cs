@@ -20,8 +20,11 @@ public class RoBox : MonoBehaviour
     private Vector3 gradient, parametric;
 
     public float accelScale;
+    public float decelScale;
     public float aDRotationAngle;
     private float speed;
+
+    public Terrain centralTerrain;
 
     // Start is called before the first frame update
     void Start()
@@ -33,11 +36,14 @@ public class RoBox : MonoBehaviour
     void Update()
     {
         MoveLogic();
+
+        //after move logic is executed, set position to be within the range of the center terrain
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, 1, 99), transform.position.y, Mathf.Clamp(transform.position.z, 1, 99));
     }
 
     private void MoveLogic()
     {
-        transform.position = new Vector3(transform.position.x, Terrain.activeTerrain.SampleHeight(transform.position) - 25, transform.position.z);
+        transform.position = new Vector3(transform.position.x, centralTerrain.SampleHeight(transform.position), transform.position.z);
 
         //forward and back
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
@@ -92,24 +98,43 @@ public class RoBox : MonoBehaviour
         {
             acc = Vector3.zero;
         }
-
-        if (vel.magnitude < 0.02f)
+        
+        //while acceleration is zero, start slowing down.
+        if (acc == Vector3.zero)
         {
-            vel = Vector3.zero;
+            //velocity = Vector3.Lerp(velocity, Vector3.zero, Time.deltaTime * decelScale);
+
+            //Constantly subtract from velocity until it reaches a certain threshold. At said threshold, stop. (i.e., stop when "close enough" to zero)
+            if (Vector3.Distance(vel - vel * decelScale, Vector3.zero) >= 0.15)
+            {
+                vel -= vel * decelScale;
+            }
+            else
+            {
+                vel = Vector3.zero;
+            }
         }
 
         transform.position += vel * Time.deltaTime;
 
         //Get the normal of the terrain so we can set the rotation of the object with it.
-        Vector3 terrainNormal = GetTerrainNormal(Terrain.activeTerrain, transform.position);
+        Vector3 terrainNormal = GetTerrainNormal(centralTerrain, transform.position);
 
         //LookRotation prioritizes the forward vector, so we have to make our forward vector perpendicular
         //to the normal, thus properly aligning the object with the normal
         vel = vel - terrainNormal * Vector3.Dot(vel, terrainNormal);
 
+        Debug.DrawRay(transform.position, terrainNormal, Color.magenta);
+        Debug.DrawRay(transform.position, vel, Color.yellow);
+
         if (vel.magnitude >= 0.02f)
         {
             transform.rotation = Quaternion.LookRotation(vel.normalized, terrainNormal);
+        }
+        else
+        {
+            transform.forward = transform.forward - terrainNormal * Vector3.Dot(transform.forward, terrainNormal);
+            transform.rotation = Quaternion.LookRotation(transform.forward, terrainNormal);
         }
     }
 
