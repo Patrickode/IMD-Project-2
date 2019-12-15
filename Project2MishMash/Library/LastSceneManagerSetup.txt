@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/MovingTerrain.unity
+- path: Assets/Scenes/Part-5/RocketThruSpace.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

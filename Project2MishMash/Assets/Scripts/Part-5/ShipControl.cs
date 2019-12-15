@@ -21,6 +21,7 @@ public class ShipControl : MonoBehaviour
         transform.position = position;
 
         // --- Manual Control --- \\
+
         //// Keeping track of time for bullet firing
         //elapsedTime += Time.deltaTime;
 
@@ -35,16 +36,25 @@ public class ShipControl : MonoBehaviour
 
         //// Spacebar fires. The default InputManager settings call this “Jump”
         //// Only happens if enough time has elapsed since last firing.
-        //      //Also doesn't happen if currently game over'd. (Otherwise, player can destroy the rock that killed them by pressing space)
-        //if (Input.GetButtonDown("Jump") && elapsedTime > reloadTime && !gameManager.gameOverText.enabled)
+        ////Also doesn't happen if currently game over'd. (Otherwise, player can destroy the rock that killed them by pressing space)
+        //if (Input.GetButtonDown("Jump"))
         //{
-        //	// Instantiate the bullet 1.2 units in front of the player
-        //	Vector3 spawnPos = transform.position;
-        //	spawnPos += new Vector3(0, 1.2f, 0);
-        //          gameManager.AddAntiRockToList(Instantiate(antiRock, spawnPos, Quaternion.identity));
-
-        //          elapsedTime = 0f; // Reset bullet firing timer
+        //    Shoot();
         //}
     }
 
+    public void Shoot()
+    {
+        // Only happens if enough time has elapsed since last firing.
+        //Also doesn't happen if currently game over'd. (Otherwise, player can destroy the rock that killed them by pressing space)
+        if (elapsedTime > reloadTime && !gameManager.gameOverText.enabled)
+        {
+            // Instantiate the bullet 1.2 units in front of the player
+            Vector3 spawnPos = transform.position;
+            spawnPos += new Vector3(0, 1.2f, 0);
+            gameManager.AddAntiRockToList(Instantiate(antiRock, spawnPos, Quaternion.identity));
+
+            elapsedTime = 0f; // Reset bullet firing timer
+        }
+    }
 }
