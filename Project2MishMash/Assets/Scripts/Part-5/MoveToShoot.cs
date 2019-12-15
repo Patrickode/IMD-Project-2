@@ -6,9 +6,15 @@ public class MoveToShoot : MonoBehaviour
 {
     public ShipControl ship;
     public float alignSpeed;
+    public float triggerScale = 1.5f;
 
     private bool rockInRange;
     private Vector3 originalPos = new Vector3(0, -5, 0);
+
+    private void Start()
+    {
+        transform.localScale = new Vector3(triggerScale, transform.localScale.y, transform.localScale.z);
+    }
 
     void Update()
     {

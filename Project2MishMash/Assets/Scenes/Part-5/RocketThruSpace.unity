@@ -1087,7 +1087,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1801188032}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1209,7 +1209,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866862026}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1261,6 +1261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ship: {fileID: 1329214806}
   alignSpeed: 1.5
+  triggerScale: 1.5
 --- !u!54 &1866862032
 Rigidbody:
   m_ObjectHideFlags: 0
