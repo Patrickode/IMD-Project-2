@@ -126,6 +126,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 70009377}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &41751067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41751066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e0d1f99add33d4c9f9642c0f02c5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jitterAmount: 0.15
 --- !u!1001 &70009377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -401,8 +414,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 180
-  cam: {fileID: 1784409930}
-  victim: {fileID: 41751066}
 --- !u!1001 &1432207207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -640,10 +651,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1784409930}
-  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
+  m_LocalRotation: {x: 0.17101006, y: 0.17101006, z: -0.030153684, w: 0.96984637}
   m_LocalPosition: {x: 0, y: 3, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 20, z: 0}
