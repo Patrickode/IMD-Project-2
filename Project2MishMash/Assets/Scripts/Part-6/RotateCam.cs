@@ -5,12 +5,12 @@ using UnityEngine;
 public class RotateCam : MonoBehaviour
 {
     public float rotateSpeed;
-    public GameObject camera;
+    public GameObject cam;
 
     void Update()
     {
         transform.Rotate(new Vector3(0, rotateSpeed * Time.deltaTime, 0));
 
-        camera.transform.LookAt(transform);
+        cam.transform.LookAt(transform);
     }
 }
