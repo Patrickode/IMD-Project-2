@@ -17,8 +17,13 @@ public class DroneLogic : MonoBehaviour
     private bool paused;
 
     private int part4Step = 1;
+    private float currentAngle;
     private Vector3 localMin;
     private Vector3 localMax;
+    private float maNoAngle;
+    private float miSoAngle;
+    private float riEaAngle;
+    private float leWeAngle;
 
     private void Start()
     {
@@ -27,6 +32,9 @@ public class DroneLogic : MonoBehaviour
         drones.Add(minSouth);
         drones.Add(rightEast);
         drones.Add(leftWest);
+
+        localMin = new Vector3(0, 1000, 0);
+        localMax = new Vector3(0, -1000, 0);
     }
 
     void Update()
@@ -35,7 +43,7 @@ public class DroneLogic : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //Make sure the drones are reset during every toggle
-            ZeroOutDrones();
+            ResetLogic();
             isPart3 = !isPart3;
         }
 
@@ -91,6 +99,7 @@ public class DroneLogic : MonoBehaviour
         //Step 1: All the drones are sent out up to a point, because this terrain is biglarge
         if (part4Step == 1)
         {
+            //We want each drone to be ~50 units away from the origin.
             bool northAtDest = maxNorth.transform.position.magnitude >= 50;
             bool southAtDest = minSouth.transform.position.magnitude >= 50;
             bool eastAtDest = rightEast.transform.position.magnitude >= 50;
@@ -107,22 +116,86 @@ public class DroneLogic : MonoBehaviour
             {
                 if (!northAtDest)
                 {
-                    NormalizedTranslate(maxNorth, Vector3.forward, droneSpeed);
+                    NormalizedTranslate(maxNorth, Vector3.forward, droneSpeed * 2);
                 }
                 if (!southAtDest)
                 {
-                    NormalizedTranslate(minSouth, -Vector3.forward, droneSpeed);
+                    NormalizedTranslate(minSouth, -Vector3.forward, droneSpeed * 2);
                 }
                 if (!eastAtDest)
                 {
-                    NormalizedTranslate(rightEast, Vector3.right, droneSpeed);
+                    NormalizedTranslate(rightEast, Vector3.right, droneSpeed * 2);
                 }
                 if (!westAtDest)
                 {
-                    NormalizedTranslate(leftWest, -Vector3.right, droneSpeed);
+                    NormalizedTranslate(leftWest, -Vector3.right, droneSpeed * 2);
                 }
             }
         }
+
+        //Step 2: Revolve in a circle and find the min and max of said circle.
+        else if (part4Step == 2)
+        {
+            //Move each of the drones 90 degrees along the circle between their positions.
+            if (currentAngle < 90)
+            {
+                currentAngle += droneSpeed * 5;
+                transform.rotation = Quaternion.AngleAxis(currentAngle, Vector3.up);
+            }
+            else
+            {
+                part4Step++;
+            }
+
+            //While the drones move, constantly check to see if any of the drones have hit a new min or max.
+            //min
+            UpdateLocalExtreme(true, maxNorth.transform.position);
+            UpdateLocalExtreme(true, minSouth.transform.position);
+            UpdateLocalExtreme(true, rightEast.transform.position);
+            UpdateLocalExtreme(true, leftWest.transform.position);
+            //max
+            UpdateLocalExtreme(false, maxNorth.transform.position);
+            UpdateLocalExtreme(false, minSouth.transform.position);
+            UpdateLocalExtreme(false, rightEast.transform.position);
+            UpdateLocalExtreme(false, leftWest.transform.position);
+        }
+
+        ////Step 3: Move each drone to either the max or min, depending.
+        //else if (part4Step == 3)
+        //{
+        //    //We want north and east to be at the max, and south and west to be at the min.
+        //    bool northAtDest = Vector3.Distance(maxNorth.transform.position, localMax) <= 0.1f;
+        //    bool southAtDest = Vector3.Distance(minSouth.transform.position, localMin) <= 0.1f;
+        //    bool eastAtDest = Vector3.Distance(rightEast.transform.position, localMax) <= 0.1f;
+        //    bool westAtDest = Vector3.Distance(leftWest.transform.position, localMin) <= 0.1f;
+
+        //    //If all the drones are where they need to be, move on
+        //    if (northAtDest && southAtDest && eastAtDest && westAtDest)
+        //    {
+        //        part4Step++;
+        //    }
+
+        //    //Otherwise, move the drones until they are.
+        //    else
+        //    {
+        //        if (!northAtDest)
+        //        {
+        //            NormalizedTranslate(maxNorth, Vector3.forward, droneSpeed * 2);
+        //        }
+        //        if (!southAtDest)
+        //        {
+        //            NormalizedTranslate(minSouth, -Vector3.forward, droneSpeed * 2);
+        //        }
+        //        if (!eastAtDest)
+        //        {
+        //            NormalizedTranslate(rightEast, Vector3.right, droneSpeed * 2);
+        //        }
+        //        if (!westAtDest)
+        //        {
+        //            NormalizedTranslate(leftWest, -Vector3.right, droneSpeed * 2);
+        //        }
+        //    }
+        //}
     }
 
     /// <summary>
@@ -171,12 +244,48 @@ public class DroneLogic : MonoBehaviour
         objToMove.transform.Translate(direction.normalized * speedToMove);
     }
 
-    private void ZeroOutDrones()
+    private void ResetLogic()
     {
+        //Reset the step Part 4 is at so it starts at the beginning.
         part4Step = 1;
+
+        //Set local min and max to some extreme values so any point will overwrite them.
+        localMin = new Vector3(0, 1000, 0);
+        localMax = new Vector3(0, -1000, 0);
+
+        //Reset the manager's rotation.
+        transform.rotation = Quaternion.identity;
+
+        //Reset all the drones' positions, and the rotation of their spokes.
         foreach (GameObject drone in drones)
         {
+            drone.transform.parent.rotation = Quaternion.identity;
             drone.transform.position = Vector3.zero;
+        }
+
+        //Reset the angle counters to match the reset rotations.
+        currentAngle = 0;
+        maNoAngle = 0;
+        miSoAngle = 0;
+        riEaAngle = 0;
+        leWeAngle = 0;
+    }
+
+    private void UpdateLocalExtreme(bool isMin, Vector3 posToCompare)
+    {
+        if (isMin)
+        {
+            if (posToCompare.y < localMin.y)
+            {
+                localMin = posToCompare;
+            }
+        }
+        else
+        {
+            if (posToCompare.y > localMax.y)
+            {
+                localMax = posToCompare;
+            }
         }
     }
 }
