@@ -9,12 +9,12 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        //Up and Down
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        //Forward and Back
+        if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(0, 0, speed * Time.deltaTime, Space.World);
         }
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.S))
         {
             transform.Translate(0, 0, -speed * Time.deltaTime, Space.World);
         }
@@ -27,6 +27,16 @@ public class CameraMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             transform.Translate(speed * Time.deltaTime, 0, 0, Space.World);
+        }
+
+        //Up and Down
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            transform.Translate(0, speed * Time.deltaTime, 0, Space.World);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            transform.Translate(0, -speed * Time.deltaTime, 0, Space.World);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
