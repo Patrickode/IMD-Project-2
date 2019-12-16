@@ -20,7 +20,12 @@ public class DroneLogic : MonoBehaviour
     private float currentAngle;
     private Vector3 localMin;
     private Vector3 localMax;
-    
+
+    public GameObject maNoSpoke;
+    public GameObject miSoSpoke;
+    public GameObject riEaSpoke;
+    public GameObject leWeSpoke;
+
     /// <summary>
     /// The angle of maxNorth's spoke.
     /// </summary>
@@ -119,10 +124,11 @@ public class DroneLogic : MonoBehaviour
         if (part4Step == 1)
         {
             //We want each drone to be ~50 units away from the origin.
-            bool northAtDest = maxNorth.transform.position.magnitude >= 50;
-            bool southAtDest = minSouth.transform.position.magnitude >= 50;
-            bool eastAtDest = rightEast.transform.position.magnitude >= 50;
-            bool westAtDest = leftWest.transform.position.magnitude >= 50;
+            //Discounting the y, importantly!!!
+            bool northAtDest = TruncateYAxis(maxNorth.transform.position).magnitude >= 50;
+            bool southAtDest = TruncateYAxis(minSouth.transform.position).magnitude >= 50;
+            bool eastAtDest = TruncateYAxis(rightEast.transform.position).magnitude >= 50;
+            bool westAtDest = TruncateYAxis(leftWest.transform.position).magnitude >= 50;
 
             //If all the drones are where they need to be, move on
             if (northAtDest && southAtDest && eastAtDest && westAtDest)
@@ -185,10 +191,10 @@ public class DroneLogic : MonoBehaviour
         else if (part4Step == 3)
         {
             //We want north and east to be at the max, and south and west to be at the min.
-            bool northAtDest = Vector3.Distance(maxNorth.transform.position, localMax) <= 0.5f;
-            bool southAtDest = Vector3.Distance(minSouth.transform.position, localMin) <= 0.5f;
-            bool eastAtDest = Vector3.Distance(rightEast.transform.position, localMax) <= 0.5f;
-            bool westAtDest = Vector3.Distance(leftWest.transform.position, localMin) <= 0.5f;
+            bool northAtDest = Vector3.Distance(maxNorth.transform.position, localMax) <= 0.1f;
+            bool southAtDest = Vector3.Distance(minSouth.transform.position, localMin) <= 0.1f;
+            bool eastAtDest = Vector3.Distance(rightEast.transform.position, localMax) <= 0.1f;
+            bool westAtDest = Vector3.Distance(leftWest.transform.position, localMin) <= 0.1f;
 
             //If all the drones are where they need to be, move on
             if (northAtDest && southAtDest && eastAtDest && westAtDest)
@@ -203,24 +209,34 @@ public class DroneLogic : MonoBehaviour
                 if (!northAtDest)
                 {
                     maNoAngle += 0.25f;
-                    maxNorth.transform.parent.rotation = Quaternion.AngleAxis(maNoAngle, Vector3.up);
+                    maNoSpoke.transform.localRotation = Quaternion.AngleAxis(maNoAngle, Vector3.up);
                 }
                 if (!southAtDest)
                 {
                     miSoAngle += 0.25f;
-                    minSouth.transform.parent.rotation = Quaternion.AngleAxis(miSoAngle, Vector3.up);
+                    miSoSpoke.transform.localRotation = Quaternion.AngleAxis(miSoAngle, Vector3.up);
                 }
                 if (!eastAtDest)
                 {
                     riEaAngle += 0.25f;
-                    rightEast.transform.parent.rotation = Quaternion.AngleAxis(riEaAngle, Vector3.up);
+                    riEaSpoke.transform.localRotation = Quaternion.AngleAxis(riEaAngle, Vector3.up);
                 }
                 if (!westAtDest)
                 {
                     leWeAngle += 0.25f;
-                    leftWest.transform.parent.rotation = Quaternion.AngleAxis(leWeAngle, Vector3.up);
+                    leWeSpoke.transform.localRotation = Quaternion.AngleAxis(leWeAngle, Vector3.up);
                 }
             }
+        }
+
+        //Part 4: Make the drones take turns cycling between the max and min.
+        else if (part4Step == 4)
+        {
+            //We want north and east to be at the max, and south and west to be at the min.
+            bool northAtDest = Vector3.Distance(maxNorth.transform.position, localMax) <= 0.1f;
+            bool southAtDest = Vector3.Distance(minSouth.transform.position, localMin) <= 0.1f;
+            bool eastAtDest = Vector3.Distance(rightEast.transform.position, localMax) <= 0.1f;
+            bool westAtDest = Vector3.Distance(leftWest.transform.position, localMin) <= 0.1f;
         }
     }
 
@@ -265,11 +281,20 @@ public class DroneLogic : MonoBehaviour
         return terrainNormal;
     }
 
+    /// <summary>
+    /// Translates in a normalized direction multiplied by a speed scalar.
+    /// </summary>
+    /// <param name="objToMove">The object to translate.</param>
+    /// <param name="direction">The potentially un-normalized direction to translate in.</param>
+    /// <param name="speedToMove">The speed at which to translate.</param>
     private void NormalizedTranslate(GameObject objToMove, Vector3 direction, float speedToMove)
     {
         objToMove.transform.Translate(direction.normalized * speedToMove);
     }
 
+    /// <summary>
+    /// Resets all Part 3 and 4 logic.
+    /// </summary>
     private void ResetLogic()
     {
         //Reset the step Part 4 is at so it starts at the beginning.
@@ -285,7 +310,7 @@ public class DroneLogic : MonoBehaviour
         //Reset all the drones' positions, and the rotation of their spokes.
         foreach (GameObject drone in drones)
         {
-            drone.transform.parent.rotation = Quaternion.identity;
+            drone.transform.parent.localRotation = Quaternion.identity;
             drone.transform.position = Vector3.zero;
         }
 
@@ -297,6 +322,11 @@ public class DroneLogic : MonoBehaviour
         leWeAngle = 0;
     }
 
+    /// <summary>
+    /// Updates the local min / max if the given position is lower / higher.
+    /// </summary>
+    /// <param name="isMin">Are we updating the min or not?</param>
+    /// <param name="posToCompare">The position to compare with the min / max.</param>
     private void UpdateLocalExtreme(bool isMin, Vector3 posToCompare)
     {
         if (isMin)
@@ -313,5 +343,15 @@ public class DroneLogic : MonoBehaviour
                 localMax = posToCompare;
             }
         }
+    }
+
+    /// <summary>
+    /// Removes the y axis from a vector.
+    /// </summary>
+    /// <param name="vectorToTruncate">The vector to remove the y axis from.</param>
+    /// <returns>The given vector, but with a y axis of zero.</returns>
+    private Vector3 TruncateYAxis(Vector3 vectorToTruncate)
+    {
+        return new Vector3(vectorToTruncate.x, 0, vectorToTruncate.z);
     }
 }

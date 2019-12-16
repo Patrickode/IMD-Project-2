@@ -626,6 +626,10 @@ MonoBehaviour:
   rightEast: {fileID: 1290549660}
   leftWest: {fileID: 329516195}
   terrain: {fileID: 451472447}
+  maNoSpoke: {fileID: 696925978}
+  miSoSpoke: {fileID: 809475968}
+  riEaSpoke: {fileID: 757069891}
+  leWeSpoke: {fileID: 1912503777}
 --- !u!4 &1367843483
 Transform:
   m_ObjectHideFlags: 0
