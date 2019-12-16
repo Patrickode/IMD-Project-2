@@ -14,6 +14,7 @@ public class DroneLogic : MonoBehaviour
 
     private List<GameObject> drones;
     private bool isPart3 = true;
+    private bool paused;
 
     private void Start()
     {
@@ -33,10 +34,16 @@ public class DroneLogic : MonoBehaviour
             ZeroOutDrones();
             isPart3 = !isPart3;
         }
+        
+        //When p is pressed, pause logic entirely
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            paused = !paused;
+        }
 
         SetHeightsToTerrain();
 
-        if (isPart3)
+        if (isPart3 && !paused)
         {
             Part3Logic();
         }

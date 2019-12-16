@@ -6,7 +6,18 @@ public class CameraMovement : MonoBehaviour
 {
     public float speed;
     public float rotateSpeed;
+    
     private bool isPart3 = true;
+    private bool paused;
+
+    private GUIStyle labelStyle;
+
+    private void Start()
+    {
+        labelStyle = new GUIStyle();
+        labelStyle.fontSize = 50;
+        labelStyle.normal.textColor = Color.red;
+    }
 
     void Update()
     {
@@ -66,6 +77,10 @@ public class CameraMovement : MonoBehaviour
         {
             isPart3 = !isPart3;
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            paused = !paused;
+        }
     }
 
     private void OnGUI()
@@ -77,6 +92,11 @@ public class CameraMovement : MonoBehaviour
         else
         {
             GUI.Box(new Rect(10, 10, 175, 175), "Part 4\nNorth/South\nEast/West\n\nPress Space to\nswitch between\nparts 3 & 4.");
+        }
+
+        if (paused)
+        {
+            GUI.Label(new Rect((Screen.width / 2) - 175 / 2, 10, 175, 50), "PAUSED", labelStyle);
         }
 
         GUI.Box(new Rect((Screen.width - 175) - 10, 10, 175, 200), "WASD to move\ncamera.\n\nUp / Down to\nchange height." +
