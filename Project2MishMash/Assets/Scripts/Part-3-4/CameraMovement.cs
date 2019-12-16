@@ -44,11 +44,11 @@ public class CameraMovement : MonoBehaviour
         }
 
         //Up and Down
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.E))
         {
             transform.Translate(0, speed * Time.deltaTime, 0, Space.World);
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.Q))
         {
             transform.Translate(0, -speed * Time.deltaTime, 0, Space.World);
         }
