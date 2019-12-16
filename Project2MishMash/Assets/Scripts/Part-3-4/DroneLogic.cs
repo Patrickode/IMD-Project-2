@@ -112,7 +112,7 @@ public class DroneLogic : MonoBehaviour
         Vector3 ascentDir = new Vector3(-maxDroneNormal.x, 0, -maxDroneNormal.z);
         if (Vector3.Distance(ascentDir, Vector3.zero) >= 0.05f)
         {
-            NormalizedTranslate(maxNorth, ascentDir, droneSpeed);
+            NormalizedTranslate(maxNorth, ascentDir, droneSpeed * 1.5f);
         }
 
         //Min Logic
@@ -121,20 +121,20 @@ public class DroneLogic : MonoBehaviour
         Vector3 descentDir = new Vector3(minDroneNormal.x, 0, minDroneNormal.z);
         if (Vector3.Distance(descentDir, Vector3.zero) >= 0.05f)
         {
-            NormalizedTranslate(minSouth, descentDir, droneSpeed);
+            NormalizedTranslate(minSouth, descentDir, droneSpeed * 1.5f);
         }
 
         //Right Logic
         //Move the drone along a level curve, rightwards.
         Vector3 rightDroneNormal = GetTerrainNormal(terrain, rightEast.transform.position);
         Vector3 rightLevelDir = new Vector3(-rightDroneNormal.z, 0, rightDroneNormal.x);
-        NormalizedTranslate(rightEast, rightLevelDir, droneSpeed);
+        NormalizedTranslate(rightEast, rightLevelDir, droneSpeed * 1.5f);
 
         //Left Logic
         //Move the drone along a level curve, leftwards.
         Vector3 leftDroneNormal = GetTerrainNormal(terrain, leftWest.transform.position);
         Vector3 leftLevelDir = new Vector3(leftDroneNormal.z, 0, -leftDroneNormal.x);
-        NormalizedTranslate(leftWest, leftLevelDir, droneSpeed);
+        NormalizedTranslate(leftWest, leftLevelDir, droneSpeed * 1.5f);
     }
 
     /// <summary>

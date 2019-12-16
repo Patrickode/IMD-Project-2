@@ -99,7 +99,7 @@ public class CameraMovement : MonoBehaviour
             GUI.Label(new Rect((Screen.width / 2) - 175 / 2, 10, 175, 50), "PAUSED", labelStyle);
         }
 
-        GUI.Box(new Rect((Screen.width - 175) - 10, 10, 175, 200), "WASD to move\ncamera.\n\nUp / Down to\nchange height." +
-            "\n\nLeft / Right to\nrotate camera.");
+        GUI.Box(new Rect((Screen.width - 175) - 10, 10, 175, 250), "WASD to move\ncamera.\n\nUp / Down to\nchange height." +
+            "\n\nLeft / Right to\nrotate camera.\n\nP to pause.");
     }
 }
