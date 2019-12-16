@@ -13,11 +13,11 @@ public class CameraMovement : MonoBehaviour
         //Forward and Back
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(0, 0, speed * Time.deltaTime);
+            transform.Translate(0, 0, speed * Time.deltaTime, Space.World);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(0, 0, -speed * Time.deltaTime);
+            transform.Translate(0, 0, -speed * Time.deltaTime, Space.World);
         }
 
         //Left and Right
