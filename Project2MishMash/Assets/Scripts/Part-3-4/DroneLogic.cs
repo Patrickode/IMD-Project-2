@@ -20,9 +20,25 @@ public class DroneLogic : MonoBehaviour
     private float currentAngle;
     private Vector3 localMin;
     private Vector3 localMax;
+    
+    /// <summary>
+    /// The angle of maxNorth's spoke.
+    /// </summary>
     private float maNoAngle;
+
+    /// <summary>
+    /// The angle of minSouth's spoke.
+    /// </summary>
     private float miSoAngle;
+
+    /// <summary>
+    /// The angle of rightEast's spoke.
+    /// </summary>
     private float riEaAngle;
+
+    /// <summary>
+    /// The angle of leftWest's spoke.
+    /// </summary>
     private float leWeAngle;
 
     private void Start()
@@ -59,10 +75,13 @@ public class DroneLogic : MonoBehaviour
         {
             Part3Logic();
         }
-        else
+        else if (!paused)
         {
             Part4Logic();
         }
+
+        Debug.DrawRay(localMin, Vector3.up * 100, Color.blue);
+        Debug.DrawRay(localMax, Vector3.up * 100, Color.red);
     }
 
     private void Part3Logic()
@@ -109,6 +128,7 @@ public class DroneLogic : MonoBehaviour
             if (northAtDest && southAtDest && eastAtDest && westAtDest)
             {
                 part4Step++;
+                Debug.Log("Next Step: " + part4Step);
             }
 
             //Otherwise, move the drones until they are.
@@ -145,6 +165,7 @@ public class DroneLogic : MonoBehaviour
             else
             {
                 part4Step++;
+                Debug.Log("Next Step: " + part4Step);
             }
 
             //While the drones move, constantly check to see if any of the drones have hit a new min or max.
@@ -160,42 +181,47 @@ public class DroneLogic : MonoBehaviour
             UpdateLocalExtreme(false, leftWest.transform.position);
         }
 
-        ////Step 3: Move each drone to either the max or min, depending.
-        //else if (part4Step == 3)
-        //{
-        //    //We want north and east to be at the max, and south and west to be at the min.
-        //    bool northAtDest = Vector3.Distance(maxNorth.transform.position, localMax) <= 0.1f;
-        //    bool southAtDest = Vector3.Distance(minSouth.transform.position, localMin) <= 0.1f;
-        //    bool eastAtDest = Vector3.Distance(rightEast.transform.position, localMax) <= 0.1f;
-        //    bool westAtDest = Vector3.Distance(leftWest.transform.position, localMin) <= 0.1f;
+        //Step 3: Move each drone to either the max or min, depending.
+        else if (part4Step == 3)
+        {
+            //We want north and east to be at the max, and south and west to be at the min.
+            bool northAtDest = Vector3.Distance(maxNorth.transform.position, localMax) <= 0.5f;
+            bool southAtDest = Vector3.Distance(minSouth.transform.position, localMin) <= 0.5f;
+            bool eastAtDest = Vector3.Distance(rightEast.transform.position, localMax) <= 0.5f;
+            bool westAtDest = Vector3.Distance(leftWest.transform.position, localMin) <= 0.5f;
 
-        //    //If all the drones are where they need to be, move on
-        //    if (northAtDest && southAtDest && eastAtDest && westAtDest)
-        //    {
-        //        part4Step++;
-        //    }
+            //If all the drones are where they need to be, move on
+            if (northAtDest && southAtDest && eastAtDest && westAtDest)
+            {
+                part4Step++;
+                Debug.Log("Next Step: " + part4Step);
+            }
 
-        //    //Otherwise, move the drones until they are.
-        //    else
-        //    {
-        //        if (!northAtDest)
-        //        {
-        //            NormalizedTranslate(maxNorth, Vector3.forward, droneSpeed * 2);
-        //        }
-        //        if (!southAtDest)
-        //        {
-        //            NormalizedTranslate(minSouth, -Vector3.forward, droneSpeed * 2);
-        //        }
-        //        if (!eastAtDest)
-        //        {
-        //            NormalizedTranslate(rightEast, Vector3.right, droneSpeed * 2);
-        //        }
-        //        if (!westAtDest)
-        //        {
-        //            NormalizedTranslate(leftWest, -Vector3.right, droneSpeed * 2);
-        //        }
-        //    }
-        //}
+            //Otherwise, move the drones until they are.
+            else
+            {
+                if (!northAtDest)
+                {
+                    maNoAngle += 0.25f;
+                    maxNorth.transform.parent.rotation = Quaternion.AngleAxis(maNoAngle, Vector3.up);
+                }
+                if (!southAtDest)
+                {
+                    miSoAngle += 0.25f;
+                    minSouth.transform.parent.rotation = Quaternion.AngleAxis(miSoAngle, Vector3.up);
+                }
+                if (!eastAtDest)
+                {
+                    riEaAngle += 0.25f;
+                    rightEast.transform.parent.rotation = Quaternion.AngleAxis(riEaAngle, Vector3.up);
+                }
+                if (!westAtDest)
+                {
+                    leWeAngle += 0.25f;
+                    leftWest.transform.parent.rotation = Quaternion.AngleAxis(leWeAngle, Vector3.up);
+                }
+            }
+        }
     }
 
     /// <summary>
