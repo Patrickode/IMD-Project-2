@@ -1,2 +1,18 @@
+Part 1: WASD to move. Movement is restricted to central terrain.
+
+Part 2: WASD to move. Up and down arrows rotate velocity by z. Press M to switch into static mode, where the chair boy can't
+	be controlled and can be "eaten" by the alien chessbeast in its natual habitat.
+	The controls are indeed strange, you're not imagining it. They're a little hard to get used to, but they met and
+	still meet the requirements of the project they were introduced in. Getting them to feel "right" would take a while.
+
+Part 3 / 4: Controls are displayed in GUI. Camera speed can be adjusted in the editor.
+
+Part 5: Ship moves to shoot asteroids that would hit / come close to hitting it. The "danger" threshold can be adjusted in the
+	editor, by clicking on the "ship" trigger.
+
+Part 6: Peace sign made by me in GIMP. The .xcf is contained with the PNG in the textures folder.
+
+Part 7: No extra controls. Watch the boy attempt to make friends with a local chessbeast by singing the song of its people.
+
 Part 7 Music: https://www.youtube.com/watch?v=sC0cvwnG0Ik
 The extraterrestrial loves it! Look at how excited(?) it is!
