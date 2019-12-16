@@ -13,21 +13,21 @@ public class CameraMovement : MonoBehaviour
         //Forward and Back
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(0, 0, speed * Time.deltaTime, Space.World);
+            transform.Translate(0, 0, speed * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(0, 0, -speed * Time.deltaTime, Space.World);
+            transform.Translate(0, 0, -speed * Time.deltaTime);
         }
 
         //Left and Right
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(-speed * Time.deltaTime, 0, 0, Space.World);
+            transform.Translate(-speed * Time.deltaTime, 0, 0);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            transform.Translate(speed * Time.deltaTime, 0, 0, Space.World);
+            transform.Translate(speed * Time.deltaTime, 0, 0);
         }
 
         //Up and Down
@@ -43,11 +43,21 @@ public class CameraMovement : MonoBehaviour
         //Rotate Camera
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Rotate(transform.up, -rotateSpeed);
+            transform.rotation = Quaternion.Euler
+                (
+                    transform.rotation.eulerAngles.x,
+                    transform.rotation.eulerAngles.y - rotateSpeed,
+                    transform.rotation.eulerAngles.z
+                );
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Rotate(transform.up, rotateSpeed);
+            transform.rotation = Quaternion.Euler
+                (
+                    transform.rotation.eulerAngles.x,
+                    transform.rotation.eulerAngles.y + rotateSpeed,
+                    transform.rotation.eulerAngles.z
+                );
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
