@@ -29,6 +29,8 @@ public class DroneLogic : MonoBehaviour
         //When space is pressed, toggle logic
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            //Make sure the drones are reset during every toggle
+            ZeroOutDrones();
             isPart3 = !isPart3;
         }
 
@@ -61,6 +63,16 @@ public class DroneLogic : MonoBehaviour
         {
             NormalizedTranslate(minSouth, descentDir, droneSpeed);
         }
+
+        //Right Logic
+        Vector3 rightDroneNormal = GetTerrainNormal(terrain, rightEast.transform.position);
+        Vector3 rightLevelDir = new Vector3(-rightDroneNormal.z, 0, rightDroneNormal.x);
+        NormalizedTranslate(rightEast, rightLevelDir, droneSpeed);
+
+        //Left Logic
+        Vector3 leftDroneNormal = GetTerrainNormal(terrain, leftWest.transform.position);
+        Vector3 leftLevelDir = new Vector3(leftDroneNormal.z, 0, -leftDroneNormal.x);
+        NormalizedTranslate(leftWest, leftLevelDir, droneSpeed);
     }
 
     private void Part4Logic()
@@ -112,5 +124,13 @@ public class DroneLogic : MonoBehaviour
     private void NormalizedTranslate(GameObject objToMove, Vector3 direction, float speedToMove)
     {
         objToMove.transform.Translate(direction.normalized * speedToMove);
+    }
+
+    private void ZeroOutDrones()
+    {
+        foreach (GameObject drone in drones)
+        {
+            drone.transform.position = Vector3.zero;
+        }
     }
 }
