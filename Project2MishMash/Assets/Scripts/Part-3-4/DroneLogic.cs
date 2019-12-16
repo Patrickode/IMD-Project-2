@@ -16,6 +16,10 @@ public class DroneLogic : MonoBehaviour
     private bool isPart3 = true;
     private bool paused;
 
+    private int part4Step = 1;
+    private Vector3 localMin;
+    private Vector3 localMax;
+
     private void Start()
     {
         drones = new List<GameObject>();
@@ -34,7 +38,7 @@ public class DroneLogic : MonoBehaviour
             ZeroOutDrones();
             isPart3 = !isPart3;
         }
-        
+
         //When p is pressed, pause logic entirely
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -84,7 +88,41 @@ public class DroneLogic : MonoBehaviour
 
     private void Part4Logic()
     {
+        //Step 1: All the drones are sent out up to a point, because this terrain is biglarge
+        if (part4Step == 1)
+        {
+            bool northAtDest = maxNorth.transform.position.magnitude >= 50;
+            bool southAtDest = minSouth.transform.position.magnitude >= 50;
+            bool eastAtDest = rightEast.transform.position.magnitude >= 50;
+            bool westAtDest = leftWest.transform.position.magnitude >= 50;
 
+            //If all the drones are where they need to be, move on
+            if (northAtDest && southAtDest && eastAtDest && westAtDest)
+            {
+                part4Step++;
+            }
+
+            //Otherwise, move the drones until they are.
+            else
+            {
+                if (!northAtDest)
+                {
+                    NormalizedTranslate(maxNorth, Vector3.forward, droneSpeed);
+                }
+                if (!southAtDest)
+                {
+                    NormalizedTranslate(minSouth, -Vector3.forward, droneSpeed);
+                }
+                if (!eastAtDest)
+                {
+                    NormalizedTranslate(rightEast, Vector3.right, droneSpeed);
+                }
+                if (!westAtDest)
+                {
+                    NormalizedTranslate(leftWest, -Vector3.right, droneSpeed);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -135,6 +173,7 @@ public class DroneLogic : MonoBehaviour
 
     private void ZeroOutDrones()
     {
+        part4Step = 1;
         foreach (GameObject drone in drones)
         {
             drone.transform.position = Vector3.zero;
