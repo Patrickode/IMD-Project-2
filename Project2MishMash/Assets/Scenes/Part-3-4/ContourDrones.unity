@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
+  rotateSpeed: 1
 --- !u!1 &329516195
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b0885b2f467486429367111e915c27e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  droneSpeed: 0.05
   maxNorth: {fileID: 1982695511}
   minSouth: {fileID: 1643659600}
   rightEast: {fileID: 1290549660}

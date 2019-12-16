@@ -76,5 +76,8 @@ public class CameraMovement : MonoBehaviour
         {
             GUI.Box(new Rect(10, 10, 175, 175), "Part 4\nNorth/South\nEast/West\n\nPress Space to\nswitch between\nparts 3 & 4.");
         }
+
+        GUI.Box(new Rect((Screen.width - 175) - 10, 10, 175, 200), "WASD to move\ncamera.\n\nUp / Down to\nchange height." +
+            "\n\nLeft / Right to\nrotate camera.");
     }
 }
