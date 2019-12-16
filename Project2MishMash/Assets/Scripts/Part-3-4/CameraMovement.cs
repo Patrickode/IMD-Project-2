@@ -13,11 +13,13 @@ public class CameraMovement : MonoBehaviour
         //Forward and Back
         if (Input.GetKey(KeyCode.W))
         {
-            transform.Translate(0, 0, speed * Time.deltaTime, Space.World);
+            Vector3 moveDir = new Vector3(transform.forward.x, 0, transform.forward.z);
+            transform.Translate(moveDir.normalized * speed * Time.deltaTime, Space.World);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.Translate(0, 0, -speed * Time.deltaTime, Space.World);
+            Vector3 moveDir = new Vector3(transform.forward.x, 0, transform.forward.z);
+            transform.Translate(moveDir.normalized * -speed * Time.deltaTime, Space.World);
         }
 
         //Left and Right
